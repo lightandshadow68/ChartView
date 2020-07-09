@@ -77,9 +77,17 @@ public struct LineChartView: View {
                             if (self.rateValue ?? 0 != 0)
                             {
                                 if (self.rateValue ?? 0 >= 0){
-                                    Image(systemName: "arrow.up")
+                                    if #available(OSX 10.16, *) {
+                                        Image(systemName: "arrow.up")
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
                                 }else{
-                                    Image(systemName: "arrow.down")
+                                    if #available(OSX 10.16, *) {
+                                        Image(systemName: "arrow.down")
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
                                 }
                                 Text("\(self.rateValue!)%")
                             }

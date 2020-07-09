@@ -40,9 +40,13 @@ public struct PieChartView : View {
                         .font(.headline)
                         .foregroundColor(self.style.textColor)
                     Spacer()
-                    Image(systemName: "chart.pie.fill")
-                        .imageScale(.large)
-                        .foregroundColor(self.style.legendTextColor)
+                    if #available(OSX 10.16, *) {
+                        Image(systemName: "chart.pie.fill")
+                            .imageScale(.large)
+                            .foregroundColor(self.style.legendTextColor)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }.padding()
                 PieChartRow(data: data, backgroundColor: self.style.backgroundColor, accentColor: self.style.accentColor)
                     .foregroundColor(self.style.accentColor).padding(self.legend != nil ? 0 : 12).offset(y:self.legend != nil ? 0 : -10)

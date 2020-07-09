@@ -33,7 +33,8 @@ public struct BarChartView : View {
     var isFullWidth:Bool {
         return self.formSize == ChartForm.large
     }
-    public init(data:ChartData, title: String, legend: String? = nil, style: ChartStyle = Styles.barChartStyleOrangeLight, form: CGSize? = ChartForm.medium, dropShadow: Bool? = true, cornerImage:Image? = Image(systemName: "waveform.path.ecg"), valueSpecifier: String? = "%.1f"){
+
+    public init(data:ChartData, title: String, legend: String? = nil, style: ChartStyle = Styles.barChartStyleOrangeLight, form: CGSize? = ChartForm.medium, dropShadow: Bool? = true, cornerImage:Image? = Image(nsImage: NSImage()), valueSpecifier: String? = "%.1f"){
         self.data = data
         self.title = title
         self.legend = legend
@@ -70,9 +71,13 @@ public struct BarChartView : View {
                             .animation(.easeOut)
                     }
                     Spacer()
-                    self.cornerImage
-                        .imageScale(.large)
-                        .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
+                    if #available(OSX 10.16, *) {
+                        self.cornerImage
+                            .imageScale(.large)
+                            .foregroundColor(self.colorScheme == .dark ? self.darkModeStyle.legendTextColor : self.style.legendTextColor)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                 }.padding()
                 BarChartRow(data: data.points.map{$0.1},
                             accentColor: self.colorScheme == .dark ? self.darkModeStyle.accentColor : self.style.accentColor,

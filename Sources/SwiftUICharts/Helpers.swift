@@ -268,11 +268,20 @@ class HapticFeedback {
     static func playSelection() -> Void {
         WKInterfaceDevice.current().play(.click)
     }
-    #else
+    #endif
+    
+    #if os(iOS)
     //iOS implementation
     let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
     static func playSelection() -> Void {
         UISelectionFeedbackGenerator().selectionChanged()
+    }
+    #endif
+    
+    #if os(macOS)
+    //macOS implementation
+    static func playSelection() -> Void {
+        NSSound.beep()
     }
     #endif
 }
