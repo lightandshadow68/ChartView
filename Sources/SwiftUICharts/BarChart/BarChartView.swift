@@ -33,6 +33,8 @@ public struct BarChartView : View {
     var isFullWidth:Bool {
         return self.formSize == ChartForm.large
     }
+    
+    #if os(macOS)
 
     public init(data:ChartData, title: String, legend: String? = nil, style: ChartStyle = Styles.barChartStyleOrangeLight, form: CGSize? = ChartForm.medium, dropShadow: Bool? = true, cornerImage:Image? = Image(nsImage: NSImage()), valueSpecifier: String? = "%.1f"){
         self.data = data
@@ -45,6 +47,22 @@ public struct BarChartView : View {
         self.cornerImage = cornerImage!
         self.valueSpecifier = valueSpecifier!
     }
+    
+    #else
+    
+    public init(data:ChartData, title: String, legend: String? = nil, style: ChartStyle = Styles.barChartStyleOrangeLight, form: CGSize? = ChartForm.medium, dropShadow: Bool? = true, cornerImage:Image? = Image(systemName: "waveform.path.ecg"), valueSpecifier: String? = "%.1f"){
+        self.data = data
+        self.title = title
+        self.legend = legend
+        self.style = style
+        self.darkModeStyle = style.darkModeStyle != nil ? style.darkModeStyle! : Styles.barChartStyleOrangeDark
+        self.formSize = form!
+        self.dropShadow = dropShadow!
+        self.cornerImage = cornerImage!
+        self.valueSpecifier = valueSpecifier!
+    }
+    
+    #endif
     
     public var body: some View {
         ZStack{
